@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Gram Panchayat Kheri Radan | kheriradan.com</title>
+<style>
+:root{--bg:#f6f8f3;--card:#fff;--tx:#1d2a1f;--mu:#5b6b5e;--pr:#1f6b3a;--ac:#e8890c;--bd:#dce5d8;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121a14;--card:#1b261e;--tx:#e8f0e9;--mu:#9bb09f;--pr:#4cb872;--ac:#f2a43a;--bd:#2c3b30;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#121a14;--card:#1b261e;--tx:#e8f0e9;--mu:#9bb09f;--pr:#4cb872;--ac:#f2a43a;--bd:#2c3b30;color-scheme:dark}
+*{box-sizing:border-box}html{scroll-padding-top:110px}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.5 system-ui,"Noto Sans Devanagari",Arial,sans-serif}
+.top{background:var(--pr);color:#fff;padding:8px 14px;display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:center;font-size:14px}
+.top button{background:#fff3;color:#fff;border:1px solid #fff8;border-radius:6px;padding:3px 12px;cursor:pointer}
+.top button.on{background:#fff;color:var(--pr);font-weight:700}
+.tick{background:var(--ac);color:#fff;overflow:hidden;white-space:nowrap;padding:6px 0;font-weight:600}
+.tick span{display:inline-block;padding-left:100%;animation:m 28s linear infinite}@keyframes m{to{transform:translateX(-100%)}}
+header{text-align:center;padding:22px 14px 10px}
+h1{margin:0;font-size:clamp(24px,5vw,38px);color:var(--pr)}header p{margin:4px 0;color:var(--mu)}
+nav{position:sticky;top:0;z-index:5;background:var(--card);border-bottom:1px solid var(--bd);display:flex;gap:4px;overflow-x:auto;padding:8px 10px}
+nav a{white-space:nowrap;padding:6px 12px;border-radius:20px;color:var(--tx);text-decoration:none;cursor:pointer;font-size:14px}nav a:hover{background:var(--pr);color:#fff}
+main{max-width:1100px;margin:auto;padding:10px 14px 40px}
+section{margin-top:28px}h2{border-left:5px solid var(--ac);padding-left:10px;margin:0 0 14px;color:var(--pr)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:16px}
+.pc{text-align:center}.ph{width:104px;height:104px;border-radius:50%;object-fit:cover;border:3px solid var(--pr);background:var(--bd);display:flex;align-items:center;justify-content:center;margin:0 auto 8px;font-size:34px;color:var(--pr);font-weight:700;overflow:hidden}
+.pc h3,.card h3{margin:2px 0;font-size:17px}.rl{color:var(--ac);font-weight:700;font-size:14px}
+.row{font-size:13.5px;color:var(--mu);text-align:left;margin-top:3px}.row b{color:var(--tx)}
+.big .ph{width:128px;height:128px}
+.st{display:inline-block;background:var(--pr);color:#fff;border-radius:12px;padding:1px 10px;font-size:12px}
+.acc{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}.acc .card{text-align:center}.acc b{font-size:24px;color:var(--pr);display:block}
+a.lk{color:var(--pr);font-weight:600}
+input,textarea,select{width:100%;padding:8px;border:1px solid var(--bd);border-radius:6px;background:var(--bg);color:var(--tx);font:inherit;margin:2px 0 8px}
+.btn{background:var(--pr);color:#fff;border:0;border-radius:8px;padding:9px 18px;cursor:pointer;font:inherit}.btn.r{background:#b3261e}.btn.g{background:var(--mu)}
+footer{background:var(--pr);color:#fff;text-align:center;padding:20px 14px}footer a{color:#fff;cursor:pointer;text-decoration:underline}
+#adm{position:fixed;inset:0;background:var(--bg);z-index:20;overflow:auto;padding:14px;display:none}
+#adm .tabs{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
+details{background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:8px 12px;margin:8px 0}summary{cursor:pointer;font-weight:600}
+label{font-size:12px;color:var(--mu)}
+.f2{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0 12px}
+</style></head><body>
+<div class="top"><div><span id="clk"></span></div><div><button id="bEn" class="on" onclick="setL('en')">English</button> <button id="bHi" onclick="setL('hi')">हिंदी</button> <button onclick="tg()">◐</button></div></div>
+<div class="tick"><span id="tk"></span></div>
+<header><h1 id="ttl"></h1><p id="sub"></p><p id="ctc"></p></header>
+<nav id="nv"></nav>
+<main id="mn"></main>
+<footer><div id="ft"></div><div style="margin-top:6px"><a onclick="login()">Admin</a></div></footer>
+<div id="adm"></div>
+<script>
+var PF=[['name','Name','नाम','b'],['role','Designation','पद','b'],['village','Village','गांव','b'],['father','Father','पिता का नाम','b'],['mother','Mother','माता का नाम','b'],['mobile','Mobile','मोबाइल','t'],['email','Email','ईमेल','t'],['joined','Joined / Tenure','कार्यकाल / ज्वाइनिंग','b'],['desc','Description / Duties','विवरण / कार्य','bx'],['photo','Photo','फोटो','i']];
+var SF=[['name','School name','स्कूल का नाम','b'],['village','Village','गांव','b'],['head','Principal / Headmaster','प्रधानाचार्य / हेडमास्टर','b'],['mobile','Mobile','मोबाइल','t'],['level','Classes','कक्षाएं','b'],['medium','Medium','माध्यम','b'],['subjects','Subjects','विषय','b'],['rooms','Classrooms','कक्षा-कक्ष','t'],['teachers','Teachers','शिक्षक','t'],['photo','Photo','फोटो','i']];
+var HF=[['name','Hospital','अस्पताल','b'],['village','Village','गांव','b'],['mobile','Mobile','मोबाइल','t'],['timing','Timing','समय','b'],['staff','Staff details','स्टाफ विवरण','bx'],['photo','Photo','फोटो','i']];
+var EF=[['title','Title','शीर्षक','b'],['date','Date','दिनांक','t'],['type','Type','प्रकार','s'],['url','PDF / YouTube link','PDF / YouTube लिंक','t'],['photo','Photo (if photo event)','फोटो','i']];
+var WF=[['title','Work','कार्य','b'],['status','Status','स्थिति','b'],['budget','Budget (Rs.)','बजट (रु.)','t'],['village','Village','गांव','b']];
+var GF=[['ticker','News ticker','समाचार पट्टी','bx'],['email','Official email','आधिकारिक ईमेल','t'],['phone','Office phone','कार्यालय फोन','t'],['received','Funds received (Rs.)','प्राप्त राशि (रु.)','t'],['spent','Funds spent (Rs.)','खर्च राशि (रु.)','t'],['asof','Account updated on','अपडेट दिनांक','t']];
+var COL={sarpanch:['Sarpanch','सरपंच',PF],upsarpanch:['Up-Sarpanch','उप सरपंच',PF],gramsevak:['Gram Sevak (VDO)','ग्राम सेवक',PF],wards:['Ward Panchs','वार्ड पंच',PF],officials:['Officials & Representatives','अधिकारी एवं जनप्रतिनिधि',PF],former:['Former Sarpanchs','पूर्व सरपंच',PF],schools:['Schools','स्कूल',SF],hospitals:['Hospitals','अस्पताल',HF],events:['Events','इवेंट',EF],works:['Development Works','विकास कार्य',WF]};
+var VIL=[['Kheri Radan','खेड़ी राड़ान'],['Olagarh','ओलागढ़'],['Bhagu Meel Ka Bas','भागू मील का बास'],['Naino Ki Dani','नैनों की डाणी']];
+function P(g,ne,nh,re,rh,v){return{name_en:ne,name_hi:nh,role_en:re,role_hi:rh,village_en:VIL[v][0],village_hi:VIL[v][1],father_en:'(to be updated)',father_hi:'(अपडेट करें)',mother_en:'(to be updated)',mother_hi:'(अपडेट करें)',mobile:'98XXXXXXXX',email:'',joined_en:'2020 - present',joined_hi:'2020 - वर्तमान',desc_en:'Details to be updated by admin.',desc_hi:'विवरण एडमिन द्वारा अपडेट किया जाएगा।',photo:''}}
+function DEF(){var d={};
+d.sarpanch=[P(0,'Sarpanch Name','सरपंच का नाम','Sarpanch','सरपंच',0)];d.sarpanch[0].desc_en='Head of the Gram Panchayat. Leads Gram Sabha, approves development works and represents the village before block and district administration.';d.sarpanch[0].desc_hi='ग्राम पंचायत के मुखिया। ग्राम सभा का संचालन, विकास कार्यों की स्वीकृति और ब्लॉक/जिला प्रशासन में गांव का प्रतिनिधित्व।';
+d.upsarpanch=[P(0,'Up-Sarpanch Name','उप सरपंच का नाम','Up-Sarpanch','उप सरपंच',1)];
+d.gramsevak=[P(0,'Gram Sevak Name','ग्राम सेवक का नाम','Gram Sevak (Village Development Officer)','ग्राम सेवक (ग्राम विकास अधिकारी)',0)];d.gramsevak[0].joined_en='Posted at Kheri Radan: from (date) to present';d.gramsevak[0].joined_hi='खेड़ी राड़ान में पोस्टिंग: (दिनांक) से वर्तमान';d.gramsevak[0].desc_en='Secretary of the Panchayat: maintains records, accounts, MGNREGA & scheme implementation, certificates and Gram Sabha minutes.';d.gramsevak[0].desc_hi='पंचायत के सचिव: रिकॉर्ड, लेखा, मनरेगा व योजनाओं का क्रियान्वयन, प्रमाण पत्र एवं ग्राम सभा कार्यवाही।';
+d.wards=[];for(var i=1;i<=8;i++)d.wards.push(P(0,'Ward Panch '+i,'वार्ड पंच '+i,'Ward Panch - Ward '+i,'वार्ड पंच - वार्ड '+i,(i-1)%4));
+d.officials=[['Krishi Paryavekshak','कृषि पर्यवेक्षक','Agriculture Supervisor'],['Sub-Divisional Officer (SDM)','उपखंड अधिकारी (SDM)','SDO'],['MLA','विधायक','MLA'],['MP (Sikar)','सांसद (सीकर)','Member of Parliament']].map(function(x){var p=P(0,'(Name)','(नाम)',x[2],x[1],0);p.role_en=x[0];p.role_hi=x[1];return p});
+d.former=[P(0,'Former Sarpanch 1','पूर्व सरपंच 1','Sarpanch','सरपंच',0),P(0,'Former Sarpanch 2','पूर्व सरपंच 2','Sarpanch','सरपंच',0)];d.former[0].joined_en='2015 - 2020';d.former[0].joined_hi='2015 - 2020';d.former[1].joined_en='2010 - 2015';d.former[1].joined_hi='2010 - 2015';
+d.schools=[{name_en:'Government Senior Secondary School, Kheri Radan',name_hi:'राजकीय उच्च माध्यमिक विद्यालय, खेड़ी राड़ान',village_en:'Kheri Radan',village_hi:'खेड़ी राड़ान',head_en:'Santosh Kumar Jakhar (Principal)',head_hi:'संतोष कुमार जाखड़ (प्रधानाचार्य)',mobile:'98XXXXXXXX',level_en:'Up to Class 12',level_hi:'कक्षा 12 तक',medium_en:'Hindi Medium',medium_hi:'हिंदी माध्यम',subjects_en:'Biology stream (Hindi, English, Maths, Science, Biology, etc.)',subjects_hi:'जीव विज्ञान संकाय (हिंदी, अंग्रेज़ी, गणित, विज्ञान, जीव विज्ञान आदि)',rooms:'(update)',teachers:'(update)',photo:''}];
+for(var v=0;v<4;v++)d.schools.push({name_en:'Government Upper Primary School, '+VIL[v][0],name_hi:'राजकीय उच्च प्राथमिक विद्यालय, '+VIL[v][1],village_en:VIL[v][0],village_hi:VIL[v][1],head_en:'(Headmaster name)',head_hi:'(हेडमास्टर का नाम)',mobile:'98XXXXXXXX',level_en:'Up to Class 8',level_hi:'कक्षा 8 तक',medium_en:'Hindi Medium',medium_hi:'हिंदी माध्यम',subjects_en:'Hindi, English, Maths, Science, Social Science, Sanskrit',subjects_hi:'हिंदी, अंग्रेज़ी, गणित, विज्ञान, सामाजिक विज्ञान, संस्कृत',rooms:'(update)',teachers:'(update)',photo:''});
+d.hospitals=VIL.map(function(x){return{name_en:'Health Centre, '+x[0],name_hi:'स्वास्थ्य केंद्र, '+x[1],village_en:x[0],village_hi:x[1],mobile:'98XXXXXXXX',timing_en:'9 AM - 5 PM',timing_hi:'सुबह 9 - शाम 5',staff_en:'Doctor, ANM, Pharmacist (update names)',staff_hi:'डॉक्टर, ANM, फार्मासिस्ट (नाम अपडेट करें)',photo:''}});
+d.events=[{title_en:'Gram Sabha Meeting',title_hi:'ग्राम सभा बैठक',date:'2026-10-02',type:'pdf',url:'',photo:''},{title_en:'Village Event Video',title_hi:'गांव का इवेंट वीडियो',date:'2026-11-01',type:'video',url:'',photo:''}];
+d.works=[{title_en:'CC Road construction',title_hi:'सीसी सड़क निर्माण',status_en:'In progress',status_hi:'कार्य जारी',budget:'500000',village_en:'Kheri Radan',village_hi:'खेड़ी राड़ान'},{title_en:'Drinking water pipeline',title_hi:'पेयजल पाइपलाइन',status_en:'Completed',status_hi:'पूर्ण',budget:'300000',village_en:'Olagarh',village_hi:'ओलागढ़'}];
+d.g={ticker_en:'Welcome to the official website of Gram Panchayat Kheri Radan | Next Gram Sabha: to be announced',ticker_hi:'ग्राम पंचायत खेड़ी राड़ान की आधिकारिक वेबसाइट में आपका स्वागत है | अगली ग्राम सभा: जल्द सूचित की जाएगी',email:'gp.kheriradan@gmail.com',phone:'98XXXXXXXX',received:'2000000',spent:'1200000',asof:''};
+return d}
+var D=window.D=DEF(),dirty={},tmr;
+function save(c){if(c)dirty[c]=1;else Object.keys(D).forEach(function(k){dirty[k]=1});var e=document.getElementById('sv');if(e)e.textContent='saving...';clearTimeout(tmr);tmr=setTimeout(function(){var l=Object.keys(dirty);dirty={};if(!window.FB||!FB.user)return;FB.save(l).then(function(){var e=document.getElementById('sv');if(e)e.textContent='✔ saved'}).catch(function(x){alert('Save failed: '+x.code)})},700)}
+var lang='en';try{lang=localStorage.getItem('kr_lang')||'en'}catch(e){}
+function L(a,b){return lang=='hi'?b:a}
+function g(o,k){return(lang=='hi'&&o[k+'_hi'])?o[k+'_hi']:(o[k+'_en']!=null?o[k+'_en']:o[k])||''}
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function ph(o){return o.photo?'<img class="ph" src="'+o.photo+'" alt="">':'<div class="ph">'+esc((g(o,'name')||'?').charAt(0))+'</div>'}
+function row(a,b,v){return v?'<div class="row"><b>'+L(a,b)+':</b> '+esc(v)+'</div>':''}
+function tel(m){return m?'<a class="lk" href="tel:'+esc(m)+'">'+esc(m)+'</a>':''}
+function person(o,big){return'<div class="card pc'+(big?' big':'')+'">'+ph(o)+'<h3>'+esc(g(o,'name'))+'</h3><div class="rl">'+esc(g(o,'role'))+'</div>'+row('Village','गांव',g(o,'village'))+row('Father','पिता',g(o,'father'))+row('Mother','माता',g(o,'mother'))+row('Tenure','कार्यकाल',g(o,'joined'))+(o.mobile?'<div class="row"><b>'+L('Mobile','मोबाइल')+':</b> '+tel(o.mobile)+'</div>':'')+row('Email','ईमेल',o.email)+'<div class="row">'+esc(g(o,'desc'))+'</div></div>'}
+function sec(id,t,body){return'<section id="'+id+'"><h2>'+t+'</h2>'+body+'</section>'}
+function grid(a,f,big){return'<div class="grid">'+a.map(function(o){return f(o,big)}).join('')+'</div>'}
+function money(n){return'Rs. '+Number(n||0).toLocaleString('en-IN')}
+function render(){
+document.documentElement.lang=lang;document.getElementById('bEn').className=lang=='en'?'on':'';document.getElementById('bHi').className=lang=='hi'?'on':'';
+document.getElementById('ttl').textContent=L('Gram Panchayat Kheri Radan','ग्राम पंचायत खेड़ी राड़ान');
+document.getElementById('sub').textContent=L('Panchayat Samiti Balara | Police Station Balara | District Sikar, Rajasthan','पंचायत समिति बलारा | थाना बलारा | जिला सीकर, राजस्थान');
+document.getElementById('ctc').innerHTML='✉ '+esc(D.g.email)+' &nbsp; ☎ '+tel(D.g.phone);
+var tk=g(D.g,'ticker');document.getElementById('tk').textContent='📢 '+tk+'     ●     '+tk;
+var N=[['home',L('Home','मुख्य')],['lead',L('Leadership','प्रतिनिधि')],['schools',L('Schools','स्कूल')],['hosp',L('Hospitals','अस्पताल')],['events',L('Events','इवेंट')],['works',L('Works','विकास कार्य')],['acc',L('Accounts','लेखा')],['fb',L('Feedback','सुझाव')]];
+document.getElementById('nv').innerHTML=N.map(function(n){return'<a onclick="go(\''+n[0]+'\')">'+n[1]+'</a>'}).join('');
+var h='';
+h+=sec('home',L('Our Panchayat','हमारी पंचायत'),'<div class="card"><p>'+L('Gram Panchayat Kheri Radan is formed by the villages: ','ग्राम पंचायत खेड़ी राड़ान इन गांवों से मिलकर बनी है: ')+VIL.map(function(v){return L(v[0],v[1])}).join(', ')+L('. It has 8 wards, 1 Senior Secondary school, upper primary schools and health centres in every village.','। इसमें 8 वार्ड हैं, 1 उच्च माध्यमिक विद्यालय तथा हर गांव में उच्च प्राथमिक विद्यालय और स्वास्थ्य केंद्र हैं।')+'</p></div>');
+h+=sec('lead',L('Sarpanch & Gram Sevak','सरपंच एवं ग्राम सेवक'),grid(D.sarpanch.concat(D.gramsevak),person,1));
+h+='<section><h2>'+L('Up-Sarpanch','उप सरपंच')+'</h2>'+grid(D.upsarpanch,person)+'</section>';
+h+='<section><h2>'+L('Ward Panchs (8 Wards)','वार्ड पंच (8 वार्ड)')+'</h2>'+grid(D.wards,person)+'</section>';
+h+='<section><h2>'+L('Officials & Representatives','अधिकारी एवं जनप्रतिनिधि')+'</h2>'+grid(D.officials,person)+'</section>';
+h+='<section><h2>'+L('Former Sarpanchs','पूर्व सरपंच')+'</h2>'+grid(D.former,person)+'</section>';
+h+=sec('schools',L('Schools','स्कूल'),grid(D.schools,function(o){return'<div class="card">'+(o.photo?'<img class="ph" style="border-radius:10px;width:100%;height:130px" src="'+o.photo+'" alt="">':'')+'<h3>🏫 '+esc(g(o,'name'))+'</h3><span class="st">'+esc(g(o,'level'))+'</span>'+row('Village','गांव',g(o,'village'))+row('Principal / HM','प्रधानाचार्य / HM',g(o,'head'))+row('Medium','माध्यम',g(o,'medium'))+row('Subjects','विषय',g(o,'subjects'))+row('Classrooms','कक्षा-कक्ष',o.rooms)+row('Teachers','शिक्षक',o.teachers)+'<div class="row"><b>'+L('Mobile','मोबाइल')+':</b> '+tel(o.mobile)+'</div></div>'}));
+h+=sec('hosp',L('Hospitals','अस्पताल'),grid(D.hospitals,function(o){return'<div class="card">'+(o.photo?'<img class="ph" style="border-radius:10px;width:100%;height:130px" src="'+o.photo+'" alt="">':'')+'<h3>🏥 '+esc(g(o,'name'))+'</h3>'+row('Village','गांव',g(o,'village'))+row('Timing','समय',g(o,'timing'))+row('Staff','स्टाफ',g(o,'staff'))+'<div class="row"><b>'+L('Mobile','मोबाइल')+':</b> '+tel(o.mobile)+'</div></div>'}));
+h+=sec('events',L('Events, Photos, PDFs & Videos','इवेंट, फोटो, PDF और वीडियो'),grid(D.events,function(o){var ic={pdf:'📄',video:'▶️',photo:'🖼️'}[o.type]||'📌';return'<div class="card">'+(o.photo?'<img style="width:100%;border-radius:8px" src="'+o.photo+'" alt="">':'')+'<h3>'+ic+' '+esc(g(o,'title'))+'</h3><div class="row">'+esc(o.date)+'</div>'+(o.url?'<div class="row"><a class="lk" target="_blank" rel="noopener" href="'+esc(o.url)+'">'+(o.type=='video'?L('Watch video','वीडियो देखें'):L('Open PDF / link','PDF / लिंक खोलें'))+'</a></div>':'')+'</div>'}));
+h+=sec('works',L('Development Works','विकास कार्य'),grid(D.works,function(o){return'<div class="card"><h3>🛠 '+esc(g(o,'title'))+'</h3><span class="st">'+esc(g(o,'status'))+'</span>'+row('Village','गांव',g(o,'village'))+row('Budget','बजट',money(o.budget))+'</div>'}));
+var bal=(+D.g.received||0)-(+D.g.spent||0);
+h+=sec('acc',L('Panchayat Accounts','पंचायत लेखा'),'<div class="acc"><div class="card"><b>'+money(D.g.received)+'</b>'+L('Received','प्राप्त')+'</div><div class="card"><b>'+money(D.g.spent)+'</b>'+L('Spent','खर्च')+'</div><div class="card"><b>'+money(bal)+'</b>'+L('Balance','शेष')+'</div></div><p class="row">'+L('As of ','दिनांक तक: ')+esc(D.g.asof||new Date().toLocaleDateString('en-IN'))+'</p>');
+h+=sec('fb',L('Feedback','सुझाव / फीडबैक'),'<div class="card"><input id="fn" placeholder="'+L('Your name','आपका नाम')+'"><textarea id="fm" rows="4" placeholder="'+L('Your feedback','आपका सुझाव')+'"></textarea><button class="btn" onclick="sendFb()">'+L('Send','भेजें')+'</button></div>');
+document.getElementById('mn').innerHTML=h;
+document.getElementById('ft').innerHTML='© '+new Date().getFullYear()+' '+L('Gram Panchayat Kheri Radan','ग्राम पंचायत खेड़ी राड़ान')+' | kheriradan.com<br>'+L('Powered by','संचालित द्वारा')+' <b>Divine Abhishek Services Private Limited</b>'}
+function go(id){document.getElementById(id).scrollIntoView({behavior:'smooth'})}
+function setL(l){lang=l;try{localStorage.setItem('kr_lang',l)}catch(e){}render()}
+function tg(){var r=document.documentElement,d=r.dataset.theme=='dark'||(!r.dataset.theme&&matchMedia('(prefers-color-scheme:dark)').matches);r.dataset.theme=d?'light':'dark'}
+function sendFb(){var m=document.getElementById('fm').value.trim();if(!m)return;if(!window.FB){alert('Please wait and try again');return}FB.addFb(document.getElementById('fn').value,m).then(function(){document.getElementById('fm').value='';alert(L('Thank you for your feedback!','आपके सुझाव के लिए धन्यवाद!'))}).catch(function(){alert('Error, try again')})}
+function clock(){var n=new Date();document.getElementById('clk').textContent='📅 '+n.toLocaleDateString(lang=='hi'?'hi-IN':'en-IN',{weekday:'long',day:'numeric',month:'long',year:'numeric'})+'  ⏰ '+n.toLocaleTimeString('en-IN')}
+setInterval(clock,1000);
+/* ADMIN */
+var cur='g';
+function login(){var a=document.getElementById('adm');a.style.display='block';if(window.FB&&FB.user){admin();return}a.innerHTML='<div class="card" style="max-width:380px;margin:60px auto"><h2>Admin Login</h2><input id="le" type="email" placeholder="Email"><input id="lp" type="password" placeholder="Password"><button class="btn" onclick="doLogin()">Login</button> <button class="btn g" onclick="document.getElementById(\'adm\').style.display=\'none\'">Cancel</button><p id="lm" style="color:#b3261e"></p></div>'}
+function doLogin(){if(!window.FB){alert('Loading, try again');return}FB.login(document.getElementById('le').value,document.getElementById('lp').value).then(function(){admin()}).catch(function(e){document.getElementById('lm').textContent='Login failed: '+e.code})}
+var FBL=null;
+function loadFb(){FB.listFb().then(function(a){FBL=a;admin()})}
+function fbHtml(){if(!FBL)return'<p>Loading...</p>';if(!FBL.length)return'<p>No feedback yet.</p>';return FBL.map(function(f){return'<div class="card" style="margin:8px 0"><b>'+esc(f.name||'-')+'</b> <small>'+esc(f.time)+'</small><p>'+esc(f.msg)+'</p><button class="btn r" onclick="FB.delFb(\''+f.id+'\').then(loadFb)">Delete</button></div>'}).join('')}
+function admin(){var a=document.getElementById('adm');var t='<div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px"><h2>Admin Panel <small id="sv"></small></h2><div><button class="btn g" onclick="exp()">Export backup</button> <label class="btn g" style="color:#fff;font-size:16px;display:inline-block">Import<input type="file" accept=".json" style="display:none" onchange="imp(this)"></label> <button class="btn r" onclick="if(confirm(\'Reset ALL data?\')){D=window.D=DEF();save();admin();render()}">Reset</button> <button class="btn" onclick="document.getElementById(\'adm\').style.display=\'none\';render()">Close</button></div></div><div class="tabs"><button class="btn'+(cur=='g'?'':' g')+'" onclick="cur=\'g\';admin()">General</button>';
+for(var k in COL)t+='<button class="btn'+(cur==k?'':' g')+'" onclick="cur=\''+k+'\';admin()">'+COL[k][0]+'</button>';t+='<button class="btn'+(cur=='fb'?'':' g')+'" onclick="cur=\'fb\';FBL=null;admin();loadFb()">Feedback</button><button class="btn r" onclick="FB.out()">Logout</button></div>';
+if(cur=='fb')t+=fbHtml();else if(cur=='g')t+='<div class="card f2">'+form(GF,D.g,'g',-1)+'</div>';
+else{var f=COL[cur][2];D[cur].forEach(function(o,i){t+='<details><summary>'+esc(o.name_en||o.title_en||('#'+i))+'</summary><div class="f2">'+form(f,o,cur,i)+'</div><button class="btn r" onclick="D[cur].splice('+i+',1);save(cur);admin()">Delete</button></details>'});t+='<button class="btn" onclick="addItem()">+ Add new</button>'}
+a.innerHTML=t}
+function inp(k,lab,v,c,i,x){var id="'"+c+"',"+i+",'"+k+"'";return'<div><label>'+lab+'</label>'+(x?'<textarea rows="3" oninput="upd('+id+',this.value)">'+esc(v)+'</textarea>':'<input value="'+esc(v)+'" oninput="upd('+id+',this.value)">')+'</div>'}
+function form(F,o,c,i){return F.map(function(f){var k=f[0],ty=f[3];
+if(ty=='b'||ty=='bx')return inp(k+'_en',f[1]+' (EN)',o[k+'_en'],c,i,ty=='bx')+inp(k+'_hi',f[2]+' (हिंदी)',o[k+'_hi'],c,i,ty=='bx');
+if(ty=='i')return'<div><label>'+f[1]+' / '+f[2]+'</label>'+(o[k]?'<img src="'+o[k]+'" style="width:60px;height:60px;object-fit:cover;border-radius:50%;display:block">':'')+'<input type="file" accept="image/*" onchange="upl(this,\''+c+'\','+i+',\''+k+'\')"></div>';
+if(ty=='s')return'<div><label>'+f[1]+'</label><select onchange="upd(\''+c+'\','+i+',\''+k+'\',this.value)">'+['photo','pdf','video'].map(function(x){return'<option'+(o[k]==x?' selected':'')+'>'+x+'</option>'}).join('')+'</select></div>';
+return inp(k,f[1]+' / '+f[2],o[k],c,i)}).join('')}
+function upd(c,i,k,v){(c=='g'?D.g:D[c][i])[k]=v;save(c)}
+function upl(el,c,i,k){var f=el.files[0];if(!f)return;var r=new FileReader();r.onload=function(){var im=new Image();im.onload=function(){var s=Math.min(1,320/Math.max(im.width,im.height)),cv=document.createElement('canvas');cv.width=im.width*s;cv.height=im.height*s;cv.getContext('2d').drawImage(im,0,0,cv.width,cv.height);upd(c,i,k,cv.toDataURL('image/jpeg',.7));admin()};im.src=r.result};r.readAsDataURL(f)}
+function addItem(){var o={};COL[cur][2].forEach(function(f){if(f[3]=='b'||f[3]=='bx'){o[f[0]+'_en']='';o[f[0]+'_hi']=''}else o[f[0]]=''});if(cur=='events')o.type='pdf';D[cur].push(o);save(cur);admin()}
+function exp(){var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(D)],{type:'application/json'}));a.download='kheriradan-data.json';a.click()}
+function imp(el){var f=el.files[0];if(!f)return;var r=new FileReader();r.onload=function(){try{D=window.D=JSON.parse(r.result);save();admin();render()}catch(e){alert('Invalid file')}};r.readAsText(f)}
+render();clock();
+</script><script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {getFirestore,collection,doc,getDocs,setDoc,addDoc,deleteDoc} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import {getAuth,signInWithEmailAndPassword,onAuthStateChanged,signOut} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+const app=initializeApp({apiKey:"AIzaSyA8H81G0JL5Zfe1g05ToModVu33sojU6WY",authDomain:"kheriradan.firebaseapp.com",projectId:"kheriradan",storageBucket:"kheriradan.firebasestorage.app",messagingSenderId:"890414752117",appId:"1:890414752117:web:e643d6aa86ae907558733c"});
+const db=getFirestore(app),auth=getAuth(app);let empty=true;
+const FB=window.FB={user:null,
+save:l=>Promise.all(l.map(c=>setDoc(doc(db,'site',c),c=='g'?window.D.g:{items:window.D[c]}))),
+login:async(e,p)=>{await signInWithEmailAndPassword(auth,e,p);if(empty){empty=false;await FB.save(Object.keys(window.D))}},
+out:()=>signOut(auth).then(()=>{document.getElementById('adm').style.display='none'}),
+addFb:(name,msg)=>addDoc(collection(db,'feedback'),{name:name.slice(0,100),msg:msg.slice(0,900),time:new Date().toISOString()}),
+listFb:async()=>{const r=await getDocs(collection(db,'feedback'));return r.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>b.time>a.time?1:-1)},
+delFb:id=>deleteDoc(doc(db,'feedback',id))};
+onAuthStateChanged(auth,u=>{FB.user=u});
+try{const r=await getDocs(collection(db,'site'));r.forEach(d=>{empty=false;if(d.id=='g')Object.assign(window.D.g,d.data());else if(d.data().items)window.D[d.id]=d.data().items});render()}catch(e){console.log(e)}
+</script>
+</body></html>
